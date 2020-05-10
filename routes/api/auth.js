@@ -9,12 +9,11 @@ const bcrypt = require('bcryptjs');
 const User = require('../../models/User');
 
 // @route  GET api/auth
-// @desc   Test route
+// @desc   Get user by token
 // @access Public
-router.get('/', auth, async (req, res) => {
+router.get('/', [auth], async (req, res) => {
   try {
-    //we can access req.user anywhere in a protected route
-    // @ts-ignore
+    //auth .. we can access req.user anywhere in a protected route
     const user = await User.findById(req.user.id).select('-password');
     //gives back user which id matches the one in the token (minus the pw)
     res.json(user);

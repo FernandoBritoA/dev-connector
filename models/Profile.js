@@ -5,6 +5,7 @@ const ProfileSchema = new mongoose.Schema({
     //user id
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
+    //mongoDB automatically generates an id for the user schema
   },
   company: {
     type: String,
@@ -42,11 +43,11 @@ const ProfileSchema = new mongoose.Schema({
       location: {
         type: String,
       },
-      from: {
+      fromdate: {
         type: Date,
         required: true,
       },
-      to: {
+      todate: {
         type: Date,
       },
       current: {
@@ -72,11 +73,11 @@ const ProfileSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      from: {
+      fromdate: {
         type: Date,
         required: true,
       },
-      to: {
+      todate: {
         type: Date,
       },
       current: {
