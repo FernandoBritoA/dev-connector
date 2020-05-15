@@ -7,6 +7,7 @@ const config = require('config');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 // @route  GET api/profile/me
 // @desc   Get current users profile
@@ -75,7 +76,7 @@ router.post(
     if (skills) {
       //turn into array, then trim for extra spaces
       //profileFields.skills = skills.split(',').map(skill => skill.trim());
-      const skillsList = skills.split(',').filter(skill => {
+      const skillsList = skills.split(',').filter((skill) => {
         if (skill) {
           //eliminate empty
           return skill.trim();
@@ -215,7 +216,7 @@ router.delete('/experience/:exp_id', [auth], async (req, res) => {
 
     //Get remove index
     const removeIndex = profile.experience
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.exp_id);
     console.log(removeIndex);
     profile.experience.splice(removeIndex, 1);
@@ -289,7 +290,7 @@ router.delete('/education/:edu_id', [auth], async (req, res) => {
 
     //Get remove index
     const removeIndex = profile.education
-      .map(item => item.id)
+      .map((item) => item.id)
       .indexOf(req.params.edu_id);
     console.log(removeIndex);
     profile.education.splice(removeIndex, 1);
@@ -337,7 +338,8 @@ router.get('/github/:username', async (req, res) => {
 // @access Private
 router.delete('/', [auth], async (req, res) => {
   try {
-    //@todo - remove users posts
+    // Remove user posts
+    await Post.deleteMany({ user: req.user.id });
     //Remove profile
     await Profile.findOneAndDelete({ user: req.user.id });
     //Remove user
