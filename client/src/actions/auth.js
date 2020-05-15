@@ -6,13 +6,14 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  CLEAR_PROFILE,
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
 import { setAuthToken } from '../utils/setAuthToken';
 
 //Load User
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -33,7 +34,7 @@ export const loadUser = () => async dispatch => {
 
 //Register user
 //! js-cookie -> token cookies, more secure
-export const register = userData => async dispatch => {
+export const register = (userData) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ export const register = userData => async dispatch => {
     const errorsArray = error.response.data.errors;
 
     if (errorsArray) {
-      errorsArray.forEach(err => dispatch(setAlert(err.msg, 'danger', 5000)));
+      errorsArray.forEach((err) => dispatch(setAlert(err.msg, 'danger', 5000)));
     }
     dispatch({
       type: REGISTER_FAIL,
@@ -64,7 +65,7 @@ export const register = userData => async dispatch => {
 
 //Login user
 //! js-cookie -> token cookies, more secure
-export const login = userData => async dispatch => {
+export const login = (userData) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ export const login = userData => async dispatch => {
     const errorsArray = error.response.data.errors;
 
     if (errorsArray) {
-      errorsArray.forEach(err => dispatch(setAlert(err.msg, 'danger', 5000)));
+      errorsArray.forEach((err) => dispatch(setAlert(err.msg, 'danger', 5000)));
     }
     dispatch({
       type: LOGIN_FAIL,
@@ -94,6 +95,7 @@ export const login = userData => async dispatch => {
 };
 
 //Logout / ClearProfile
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
+  dispatch({ type: CLEAR_PROFILE });
 };
